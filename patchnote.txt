@@ -1,0 +1,17 @@
+Patch note Nov 22 3pm Bochi Tao
+Added:
+  - menu bar button: when clicked in a youtube video page, open a new page and
+    play the video. Does nothing when clicked on other pages.
+  - right-click menu buttons: two options "Play in youtube hover" and "Add to
+    Youtube Hover playlist".Does nothing when clicked.
+
+Comments:
+  - The broswer window APIs in the addon sdk is very highlevel and allows no
+    customization. The "chrome window" seems to be the lower level apis for
+    modifying windows, however it cannot be called directly from addons. Needs
+    to look into this.
+  - Having the video playing window always on the top-level does not seem to be
+    supported in firefox. Very tricky.
+  - The right-click menu options seems only runs page scripts, kinda tricky here
+    since arguments(url for now) need to be passed in and other functions needs
+    to be called.

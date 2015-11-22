@@ -1,0 +1,54 @@
+var buttons = require('sdk/ui/button/action');
+var tabs = require("sdk/tabs");
+
+var button = buttons.ActionButton({
+  id: "mozilla-link",
+  label: "Visit Mozilla",
+  icon: {
+    "16": "./icon-16.png",
+    "32": "./icon-32.png",
+    "64": "./icon-64.png"
+  },
+  onClick: handleClick
+});
+
+
+// create the patterns to check if urls are truely from Youtube
+var { MatchPattern } = require("sdk/util/match-pattern");
+var pattern1 = new MatchPattern(/.*tube.*/);
+
+
+function buttonClick(state) {
+if pattern1.test(tabs.activeTab.url)
+  openHoverPanel(tabs.activeTab.url)
+}
+
+function openHoverPanel(url) {
+
+
+}
+
+
+var contextMenu = require("sdk/context-menu");
+var menuItemPlay = contextMenu.Item({
+  label: "Play in Youtube Hover",
+  context: contextMenu.URLContext(pattern1) ,
+  contentScript: 'self.on("click", function () {' +
+                 '  var text = window.getSelection().toString();' +
+                 '  self.postMessage(text);' +
+                 '});',
+  onMessage: function (selectionText) {
+    console.log(selectionText);
+  }
+});
+var menuItemAddtoList = contextMenu.Item({
+  label: "Add to Youtube Hover Playlist",
+  context: contextMenu.URLContext(pattern1) ,
+  contentScript: 'self.on("click", function () {' +
+                 '  var text = window.getSelection().toString();' +
+                 '  self.postMessage(text);' +
+                 '});',
+  onMessage: function (selectionText) {
+    console.log(selectionText);
+  }
+});
