@@ -1,3 +1,10 @@
+Patch note Nov 25 3am Bochi Tao
+Added:
+  - The popup window is now fully customizable(with code, of course), and can always stay on top on other firefox windows.
+
+Comments:
+  - Need to finalize a design for popup windows. Adding buttons to control the window is possible, maybe with more research. 
+
 Patch note Nov 22 3pm Bochi Tao
 Added:
   - menu bar button: when clicked in a youtube video page, open a new page and

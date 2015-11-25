@@ -58,6 +58,11 @@ function openHoverPanel(url) {
 var ifHeader="https://www.youtube.com/embed/"
 var ifURL=ifHeader.concat(url.slice(32));
 //console.log(ifURL);
-Windows.open(ifURL);
+//Windows.open(ifURL);
+var chromewindow = viewFor(Windows.open(ifURL));
+chromewindow.close();
+chromewindow.open(ifURL,
+      "DescriptiveWindowName",
+    "width=560,height=315,resizable,scrollbars=no,status=1,alwaysRaised");
 
 }
