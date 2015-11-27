@@ -1,0 +1,66 @@
+<html>
+<head>
+
+    <style type="text/css" media="all">
+      body{
+        min-width: 320px; 
+        height: 240px;
+        max-width: 100%;
+        position: relative; margin:0;
+        vertical-align:middle;
+        background: white;
+      }
+      #player{
+        position:relative; 
+        height:100%; 
+        width:100%; 
+        border:0;
+      }
+    </style>
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          videoId: 'M7lc1UVf-VE',
+          events: {
+            'onReady': onPlayerReady,
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        console.log('player ready!')
+      }
+
+
+      window.playVideo = function(_id){
+        console.log('serving single video')
+        player.loadVideoById(_id);
+      }
+
+      window.addToPlaylist = function(_id){
+        console.log('adding to playlist') 
+        // NEED TO HANDLE THIS!
+        // CAN STORE AS A DYNAMIC LIST.
+      }
+
+      window.pauseVideo = function(){
+        console.log('paused')
+        player.pauseVideo();
+      }
+    </script>      
+  </head>
+  <body>
+      <iframe id="player" src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&playerapiid=player&wmode=opaque"></iframe>
+  </body>
+</html>
