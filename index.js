@@ -7,6 +7,8 @@ var data = require("sdk/self").data; //data.folder?
 var { open } = require('sdk/window/utils');//low-level api not working
 var { getActiveView }=require("sdk/view/core");
 
+// TODO: modify this to capture videoId
+// from all variations of YouTube links.
 var url_pattern = new MatchPattern(/https:\/\/www\.youtube\.com\/watch.*/);
 
 // Contains updated boolean
@@ -101,17 +103,3 @@ function showPanel(){
 hover_tube.port.on("updatePlaylist", function(_isPlaylist){
   isPlaylist = _isPlaylist;
 })
-
-//dummy function to open a new window with the iframe
-function openHoverPanel(url) {
-  var ifHeader="https://www.youtube.com/embed/"
-  var ifURL=ifHeader.concat(url.slice(32));
-  //console.log(ifURL);
-  
-  Windows.open(ifURL);
-  var chromewindow = getActiveView(Windows.open(ifURL));
-  chromewindow.close();
-  chromewindow.open(ifURL,
-        "DescriptiveWindowName",
-      "width=560,height=315,resizable,scrollbars=no,status=1,alwaysRaised");
-}
