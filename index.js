@@ -9,30 +9,32 @@ var { getActiveView }=require("sdk/view/core");
 
 var url_pattern = new MatchPattern(/https:\/\/www\.youtube\.com\/watch.*/);
 
+// Contains updated boolean
+// recording whether 
+// a playlist has started.
+var isPlaylist = false;
 
 // Construct a panel, loading its content from the "hover-tube.html"
 // file in the "data" directory, and loading the "get-text.js" script
 // into it.
 var hover_tube = require("sdk/panel").Panel({
   id:'hover-tube',
-  width: 320,
-  height: 240,
+  width: 322,
+  height: 242, // element has 1px border!
   anchor: null, 
   noautohide: true,
-  backdrag: true,
   position: {'bottom': 40, 'right': 25},
   contentURL: data.url("hover-tube.html"),
   contentScriptFile: [ data.url("jquery.js"), data.url("migrate.js"), data.url("hover-tube.js") ]
 });
 getActiveView(hover_tube).setAttribute("noautohide", true);
-getActiveView(hover_tube).setAttribute("titlebar", "normal");
 getActiveView(hover_tube).setAttribute("backdrag", true);
-getActiveView(hover_tube).setAttribute("level", 'parent');
-getActiveView(hover_tube).setAttribute("type", "arrow")
+getActiveView(hover_tube).setAttribute("level", 'floating');
 
 
-
-//var chromeWindow = viewFor(browserWindows);
+/* both are needed in order to make the background transparent... */
+getActiveView(hover_tube).setAttribute("type","content");
+getActiveView(hover_tube).setAttribute("transparent","transparent");
 
 var button = buttons.ActionButton({
   id: "mozilla-link",
@@ -59,13 +61,17 @@ var menuItemPlay = contextMenu.Item({
   }
 });
 
-
 //right-click menu button for "Add to Youtube Hover Playlist"
 var menuItemAddtoList = contextMenu.Item({
   label: "Add to Youtube Hover Playlist",
   context:[
     contextMenu.URLContext(["*.youtube.com"]), 
     contextMenu.SelectorContext("a"),
+    contextMenu.PredicateContext(function(arg){
+        // only show this menu item if there is an existing playlist
+        // console.log("checking if playlist exits")
+        return isPlaylist;
+    })
   ], 
   contentScript: 'self.on("click", function (node,data) { self.postMessage(node.href) });',
   onMessage: function(_youtubeURL){
@@ -89,6 +95,12 @@ function showPanel(){
   if (!hover_tube.isShowing)
     hover_tube.show();
 }
+
+// change to 'broadcastPlaylist' here and in 
+// page script, content script to avoid confusion
+hover_tube.port.on("updatePlaylist", function(_isPlaylist){
+  isPlaylist = _isPlaylist;
+})
 
 //dummy function to open a new window with the iframe
 function openHoverPanel(url) {
