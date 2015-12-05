@@ -15,4 +15,9 @@ self.port.on("addToPlaylist", function(_youtubeId){
 
 unsafeWindow.isPlaylist = function(_newState){
 	self.port.emit("updatePlaylist", _newState);
-}	
+}
+
+self.port.on("resize", function({width, height})
+{
+  panel.resize(width, height);
+});
