@@ -21,8 +21,8 @@ var isPlaylist = false;
 // into it.
 var hover_tube = require("sdk/panel").Panel({
   id:'hover-tube',
-  width: 322,
-  height: 242, // element has 1px border!
+  width: 420,
+  height: 238, // element has 1px border!
   anchor: null,
   noautohide: true,
   position: {'bottom': 40, 'right': 25},
@@ -33,6 +33,7 @@ var hover_tube = require("sdk/panel").Panel({
 getActiveView(hover_tube).setAttribute("noautohide", true);
 getActiveView(hover_tube).setAttribute("level", 'floating');
 getActiveView(hover_tube).setAttribute("type", "drag");
+getActiveView(hover_tube).setAttribute("type", "resize");
 getActiveView(hover_tube).setAttribute("titlebar", "normal");
 
 /* both are needed in order to make the background transparent... */
