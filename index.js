@@ -27,7 +27,8 @@ var hover_tube = require("sdk/panel").Panel({
   noautohide: true,
   position: {'bottom': 40, 'right': 25},
   contentURL: data.url("hover-tube.html"),
-  contentScriptFile: [ data.url("jquery.js"), data.url("migrate.js"), data.url("hover-tube.js") ]
+  contentStyle: [data.url("jquery-ui.css")],
+  contentScriptFile: [ data.url("jquery.js"), data.url("jquery-ui.js"),data.url("migrate.js"), data.url("hover-tube.js") ]
 });
 
 getActiveView(hover_tube).setAttribute("noautohide", true);
@@ -99,6 +100,12 @@ function showPanel(){
   if (!hover_tube.isShowing)
     hover_tube.show();
 }
+
+
+
+hover_tube.port.on("resize", function(payload){
+  hover_tube.resize(payload.size.width, payload.size.height)
+})
 
 // change to 'broadcastPlaylist' here and in
 // page script, content script to avoid confusion

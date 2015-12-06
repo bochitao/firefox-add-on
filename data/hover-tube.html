@@ -1,34 +1,39 @@
 <html>
 <head>
-
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
     <style type="text/css" media="all">
       body{
-        min-width: 420px;
+        min-width: 420;
         max-width: 100%;
         height: auto;
         overflow: hidden;
         position: relative;
         margin:0;
         vertical-align:middle;
+        background-color: black;
       }
+
       #player{
         position:relative;
-        width:420px;
-        height:236px;
-        border:0;
+        width:99%;
+        height:99%;
+        border: 0;
         margin: 0;
         padding: 0;
         display: block;
         margin: auto;
+        z-index: 1;
       }
     </style>
     <script>
+
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
-
       tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+
 
       // 3. This function creates an <iframe> (and YouTube player)
       //    after the API code downloads.
@@ -53,6 +58,7 @@
 
       function onPlayerStateChange(evt){
         updatePlaylistState(evt.data);
+
         // always update playlist, even if video has not ended
           if (playlist.length > player.getPlaylist().length)
             player.loadPlaylist(playlist, player.getPlaylistIndex() + 1)
@@ -86,9 +92,14 @@
               window.isPlaylist(true)
       }
 
+
+
+
     </script>
   </head>
   <body>
+  <div id = "drag">
       <iframe id="player" src="http://www.youtube.com/embed/M7lc1UVf-VE?wmode=transparent&enablejsapi=1&playerapiid=player"></iframe>
+      </div>
   </body>
 </html>

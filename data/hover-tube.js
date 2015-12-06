@@ -17,7 +17,12 @@ unsafeWindow.isPlaylist = function(_newState){
 	self.port.emit("updatePlaylist", _newState);
 }
 
-self.port.on("resize", function({width, height})
-{
-  panel.resize(width, height);
-});
+
+$("#drag").resizable({
+    resize: function(event, ui) {
+      self.port.emit("resize", ui)
+    },
+    iframeFix: true,
+    zIndex: 100,
+    aspectRatio: true
+  });
