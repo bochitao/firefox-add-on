@@ -4,8 +4,9 @@
     <style type="text/css" media="all">
       body{
         min-width: 420px;
-        height: 236px;
         max-width: 100%;
+        height: auto;
+        overflow: hidden;
         position: relative;
         margin:0;
         vertical-align:middle;
@@ -52,11 +53,10 @@
 
       function onPlayerStateChange(evt){
         updatePlaylistState(evt.data);
-        // if video has ended, update playlist...
-        if (evt.data == YT.PlayerState.ENDED){
+        // always update playlist, even if video has not ended
           if (playlist.length > player.getPlaylist().length)
             player.loadPlaylist(playlist, player.getPlaylistIndex() + 1)
-        }
+
       }
 
       // user callback handlers
@@ -66,6 +66,7 @@
 
       window.addToPlaylist = function(_id){
         playlist.push(_id)
+
       }
 
       window.pauseVideo = function(){
