@@ -15,7 +15,7 @@ var url_pattern = new MatchPattern(/https:\/\/www\.youtube\.com\/watch.*/);
 // recording whether
 // a playlist has started.
 var isPlaylist = false;
-
+var current_url="";
 // Construct a panel, loading its content from the "hover-tube.html"
 // file in the "data" directory, and loading the "get-text.js" script
 // into it.
@@ -55,35 +55,35 @@ var button = buttons.ActionButton({
 //right-click menu button for "Play in Youtube Hover"
 var menuItemPlay = contextMenu.Item({
   label: "Play in Youtube Hover",
-  context:[
-    contextMenu.URLContext(["*.youtube.com"]),
-    contextMenu.SelectorContext("a"),
-  ],
+  context: contextMenu.PredicateContext(function(context){
+    current_url=context.linkURL;
+    return url_pattern.test(context.linkURL);
+  }),
   contentScript: 'self.on("click", function (node,data) { self.postMessage(node.href) });',
   onMessage: function(_youtubeURL){
-      showPanel()
-      hover_tube.port.emit("playTrack", _youtubeURL.split("watch?v=").pop())
+    showPanel()
+
+    //console.log(current_url)
+    hover_tube.port.emit("playTrack", current_url.slice(32))
   }
 });
 
 //right-click menu button for "Add to Youtube Hover Playlist"
-var menuItemAddtoList = contextMenu.Item({
+var menuItemList = contextMenu.Item({
   label: "Add to Youtube Hover Playlist",
-  context:[
-    contextMenu.URLContext(["*.youtube.com"]),
-    contextMenu.SelectorContext("a"),
-    contextMenu.PredicateContext(function(arg){
-        // only show this menu item if there is an existing playlist
-        // console.log("checking if playlist exits")
-        return isPlaylist;
-    })
-  ],
+  context: contextMenu.PredicateContext(function(context){
+    current_url=context.linkURL;
+    return url_pattern.test(context.linkURL) && isPlaylist;
+  }),
   contentScript: 'self.on("click", function (node,data) { self.postMessage(node.href) });',
   onMessage: function(_youtubeURL){
-      showPanel()
-      hover_tube.port.emit("addToPlaylist", _youtubeURL.split("watch?v=").pop())
+    showPanel()
+
+    //console.log(current_url)
+    hover_tube.port.emit("addToPlaylist", current_url.slice(32))
   }
 });
+
 
 //handles clicking the menu bar addon button
 function togglePanel() {

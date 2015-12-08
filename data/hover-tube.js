@@ -1,5 +1,6 @@
 self.port.on("playTrack", function(_videoId){
 	console.log("in playtrack")
+	console.log(_videoId)
 	unsafeWindow.playVideo(_videoId)
 })
 
